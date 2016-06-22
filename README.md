@@ -52,7 +52,9 @@ options:
 * `--name=$ARTIFACT_NAME`: specify the name of the artifact requested, requires
   `--taskid`
 * `--queue=$QUEUE_HOSTNAME`: (optional) specify an alternate location of
-  `queue.taskcluster.net`, compatible only with --taskid and --name
+  `queue.taskcluster.net`, compatible only with --taskid and --name. Example:
+  `http://taskcluster/queue`.  Alternately set with environment variable
+  `TASKCLUSTER_QUEUE_BASE`
 * `--format=[tar-gz|tar-xz|exe|xml|json|etc...]`: (optional) specifies the
   format expected and implies that output is to be validated.
 * `--extract=$DESTINATION`: (optional) if format is a known archive format,
@@ -82,10 +84,12 @@ options:
       --size=$((10 * 1024 * 1024)):$((500 * 1024 * 1024))
 
 ### Download an artifact using the taskcluster proxy
-    artifact-download \
+Note that in production, the TASKCLUSTER_QUEUE_URL variable would be set by the
+docker worker
+
+    TASKCLUSTER_QUEUE_URL=http://taskcluster/queue/ artifact-download \
       --taskid=N39CRjUXQ7aq2OEexeJphg \
       --name=public/build/target.tar.gz \
-      --queue-host=taskcluster \
       --format=tar-gz \
       --extract=workspace/build \
       --purge-on-error \
